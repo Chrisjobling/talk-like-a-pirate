@@ -3,13 +3,20 @@
  */
 package com.translator
 
-class App {
-    val greeting: String
-        get() {
-            return "Hello World!"
+import com.amazonaws.services.lambda.runtime.Context
+import com.amazonaws.services.lambda.runtime.RequestHandler
+import com.translator.handlers.HandlerInput
+import com.translator.handlers.HandlerOutput
+
+class App : RequestHandler<HandlerInput, HandlerOutput> {
+
+    private val translator: PirateTranslator = DefaultPirateTranslator()
+
+    override fun handleRequest(input: HandlerInput?, context: Context?): HandlerOutput {
+        input?.let {
+            return HandlerOutput(it.message, translator.translate(it.message))
         }
+        return HandlerOutput("", "");
+    }
 }
 
-fun main() {
-    println(App().greeting)
-}

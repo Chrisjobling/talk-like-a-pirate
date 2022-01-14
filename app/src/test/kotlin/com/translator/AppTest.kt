@@ -3,12 +3,18 @@
  */
 package com.translator
 
+import com.translator.handlers.HandlerInput
+import com.translator.handlers.HandlerOutput
 import kotlin.test.Test
-import kotlin.test.assertNotNull
+import kotlin.test.assertEquals
 
 class AppTest {
-    @Test fun appHasAGreeting() {
+    @Test fun testAppHasAGreeting() {
         val classUnderTest = App()
-        assertNotNull(classUnderTest.greeting, "app should have a greeting")
+        val input = HandlerInput()
+        input.message = "Hello"
+        val expected = HandlerOutput("Hello", "Ahoy!")
+        val output = classUnderTest.handleRequest(input, null)
+        assertEquals(expected, output)
     }
 }
